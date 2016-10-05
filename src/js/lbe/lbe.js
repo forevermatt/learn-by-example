@@ -1,6 +1,6 @@
 // Set up global namespace.
 lbe = {};
 
-lbe.init = function() {
-  new lbe.LearnByExample();
+lbe.init = function(titleElement, contentElement) {
+  new lbe.LearnByExample(titleElement, contentElement);
 };

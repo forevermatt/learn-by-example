@@ -1,9 +1,14 @@
-lbe.LearnByExample = function() {
-  this.contentElement = $('#content');
+lbe.LearnByExample = function(titleElement, contentElement) {
+  this.titleElement = titleElement;
+  this.contentElement = contentElement;
   var learnByExample = this;
   this.getLessonsData(function(error, data) {
-    learnByExample.lessonsData = data;
-    learnByExample.showLessonsList(data);
+    if (error) {
+      learnByExample.contentElement.text(error);
+    } else {
+      learnByExample.lessonsData = data;
+      learnByExample.showLessonsList(data);
+    }
   });
 };
 
@@ -22,7 +27,7 @@ lbe.LearnByExample.prototype.getLessonsData = function(callback) {
   });
 };
 
-lbe.LearnByExample.prototype.setContent = function(content) {
+lbe.LearnByExample.prototype.showContent = function(content) {
   var contentElement = $('#content');
   contentElement.empty();
   contentElement.append(content);
@@ -30,6 +35,9 @@ lbe.LearnByExample.prototype.setContent = function(content) {
 
 lbe.LearnByExample.prototype.showLesson = function(lessonCode) {
   var lessonData = this.getLessonData(lessonCode);
+  this.showTitle(lessonData.question);
+  var content = $('<div/>');
+  
   
   console.log(lessonData); // TEMP
   
@@ -55,5 +63,9 @@ lbe.LearnByExample.prototype.showLessonsList = function(lessonsData) {
     item.appendTo(lessonsList);
   });
   
-  this.setContent(lessonsList);
+  this.showContent(lessonsList);
+};
+
+lbe.LearnByExample.prototype.showTitle = function(titleText) {
+  this.titleElement.text(titleText);
 };

@@ -14,7 +14,7 @@
   </head>
   <body id="page">
     <div class="container text-center">
-      <h2>What would you like to learn?</h2>
+      <h2 id="title">What would you like to learn?</h2>
       <div class="inline-block text-left" id="content"></div>
     </div>
     
@@ -24,7 +24,7 @@
     <script src="js/lbe/learn-by-example.js"></script>
     <script type="text/javascript">
       $(function() {
-        lbe.init();
+        lbe.init($('#title'), $('#content'));
       });
     </script>
   </body>
