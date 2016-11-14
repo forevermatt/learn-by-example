@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learn by Example</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body id="site">
+    <h1 id="site-title">Learn by Example</h1>
+    <div class="container text-center" id="page"></div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lbe/lbe.js"></script>
+    <script src="js/lbe/page.js"></script>
+    <script src="js/lbe/lesson-page.js"></script>
+    <script src="js/lbe/menu-page.js"></script>
+    <script src="js/lbe/website.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        lbe.init('#page', 'data/lessons.json');
+      });
+    </script>
+  </body>
+</html>
