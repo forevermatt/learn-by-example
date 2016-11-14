@@ -10,15 +10,15 @@ lbe.Page.prototype.initializePage = function(options) {
 
 lbe.Page.prototype.getAsElement = function(dataForPage) {
   var pageElement = $('<div/>');
-  if (this.hasTitle(dataForPage)) {
-    pageElement.append(this.getTitleAsElement(dataForPage));
-  }
   if (this.hasInstructions(dataForPage)) {
     pageElement.append($('' +
       '<div class="alert alert-info" role="alert">' +
-        '<b>Instructions:</b> ' + this.getInstructionsAsElement(dataForPage) +
+        '<b>Instructions:</b> ' + this.getInstructionsAsElement().html() +
       '</div>'
     ));
+  }
+  if (this.hasTitle(dataForPage)) {
+    pageElement.append(this.getTitleAsElement(dataForPage));
   }
   pageElement.append(this.getContentAsElement(dataForPage));
   return pageElement;
@@ -32,8 +32,12 @@ lbe.Page.prototype.getInstructionsAsElement = function() {
   return $('<span id="instructions"/>').text(this.instructions);
 };
 
-lbe.Page.prototype.getTitleAsElement = function() {
-  return $('<h2 id="title"></h2>').text(this.title);
+lbe.Page.prototype.getTitleAsElement = function(dataForPage) {
+  return $('<h2 id="title"></h2>').text(this.getTitleText(dataForPage));
+};
+
+lbe.Page.prototype.getTitleText = function() {
+  return this.title;
 };
 
 lbe.Page.prototype.hasInstructions = function() {

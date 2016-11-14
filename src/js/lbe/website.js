@@ -25,6 +25,10 @@ lbe.Website.prototype.listenForEvents = function() {
   this.targetElement.on('lesson:select', function(event, lessonCode) {
     website.showLesson(lessonCode);
   });
+  this.targetElement.on('lesson:complete', function() {
+    website.pages.lesson.reset();
+    website.showPage(website.pages.menu, website.lessonsData);
+  });
 };
 
 lbe.Website.prototype.retrieveData = function(dataUrl, callback) {
@@ -48,4 +52,8 @@ lbe.Website.prototype.showLesson = function(lessonCode) {
 lbe.Website.prototype.showPage = function(page, dataForPage) {
   this.targetElement.empty();
   this.targetElement.append(page.getAsElement(dataForPage));
+};
+
+lbe.Website.prototype.showQuestionResult = function(option) {
+  this.showPage(this.pages.lesson, this.lessonsData[lessonCode]);
 };

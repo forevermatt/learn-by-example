@@ -1,0 +1,2 @@
+lbe.Lesson = function() {
+};
