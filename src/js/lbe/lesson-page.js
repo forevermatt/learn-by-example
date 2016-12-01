@@ -19,6 +19,9 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
     // Get next pair of numbers in Fibonacci sequence.
     example.nextDelay = example.prevDelay + example.nextDelay;
     example.prevDelay = example.nextDelay - example.prevDelay;
+    
+    // Add some unpredictability.
+    example.nextDelay += Math.round(Math.random());
   }
 };
 
@@ -107,9 +110,18 @@ lbe.LessonPage.prototype.moveCurrentExample = function(lessonData, delay) {
 lbe.LessonPage.prototype.randomizeExamples = function(lessonData) {
   for (var i = lessonData.examples.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var temp = lessonData.examples[i];
-    lessonData.examples[i] = lessonData.examples[j];
-    lessonData.examples[j] = temp;
+    this.swapExamples(lessonData, i, j);
+  }
+
+  // Check for duplicates (two of the same thing in a row).
+  var lastIndex = lessonData.examples.length - 1;
+  for (var k = lastIndex - 1; k > 0; k--) {
+    if (lessonData.examples[k][0] === lessonData.examples[k + 1][0]) {
+      
+      /* If we found a duplicate, move one of them to the end of the list of
+       * examples.  */
+      this.swapExamples(lessonData, lastIndex, k);
+    }
   }
 };
 
@@ -128,4 +140,10 @@ lbe.LessonPage.prototype.getTitleText = function(lessonData) {
 
 lbe.LessonPage.prototype.hasTitle = function(lessonData) {
   return !!lessonData.question;
+};
+
+lbe.LessonPage.prototype.swapExamples = function(lessonData, indexA, indexB) {
+    var temp = lessonData.examples[indexA];
+    lessonData.examples[indexA] = lessonData.examples[indexB];
+    lessonData.examples[indexB] = temp;
 };
