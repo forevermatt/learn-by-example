@@ -17,11 +17,11 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
   this.moveCurrentExample(lessonData, example.nextDelay)
   if (gotItRight) {
     // Get next pair of numbers in Fibonacci sequence.
-    example.nextDelay = example.prevDelay + example.nextDelay;
-    example.prevDelay = example.nextDelay - example.prevDelay;
+    example.prevDelay = example.nextDelay;
+    example.nextDelay = Math.ceil(example.nextDelay * 1.33);
     
     // Add some unpredictability.
-    example.nextDelay += Math.round(Math.random());
+    example.nextDelay += Math.round(Math.random() * 0.5);
   }
 };
 
