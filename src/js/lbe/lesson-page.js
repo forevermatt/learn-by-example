@@ -107,9 +107,7 @@ lbe.LessonPage.prototype.moveCurrentExample = function(lessonData, delay) {
 lbe.LessonPage.prototype.randomizeExamples = function(lessonData) {
   for (var i = lessonData.examples.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var temp = lessonData.examples[i];
-    lessonData.examples[i] = lessonData.examples[j];
-    lessonData.examples[j] = temp;
+    this.swapExamples(lessonData, i, j);
   }
 };
 
@@ -128,4 +126,10 @@ lbe.LessonPage.prototype.getTitleText = function(lessonData) {
 
 lbe.LessonPage.prototype.hasTitle = function(lessonData) {
   return !!lessonData.question;
+};
+
+lbe.LessonPage.prototype.swapExamples = function(lessonData, indexA, indexB) {
+    var temp = lessonData.examples[indexA];
+    lessonData.examples[indexA] = lessonData.examples[indexB];
+    lessonData.examples[indexB] = temp;
 };
