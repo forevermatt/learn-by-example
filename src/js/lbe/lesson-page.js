@@ -112,6 +112,17 @@ lbe.LessonPage.prototype.randomizeExamples = function(lessonData) {
     var j = Math.floor(Math.random() * (i + 1));
     this.swapExamples(lessonData, i, j);
   }
+
+  // Check for duplicates (two of the same thing in a row).
+  var lastIndex = lessonData.examples.length - 1;
+  for (var k = lastIndex - 1; k > 0; k--) {
+    if (lessonData.examples[k][0] === lessonData.examples[k + 1][0]) {
+      
+      /* If we found a duplicate, move one of them to the end of the list of
+       * examples.  */
+      this.swapExamples(lessonData, lastIndex, k);
+    }
+  }
 };
 
 lbe.LessonPage.prototype.removeCurrentExampleFromList = function(lessonData) {
