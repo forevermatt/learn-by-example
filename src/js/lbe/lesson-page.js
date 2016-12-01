@@ -19,6 +19,9 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
     // Get next pair of numbers in Fibonacci sequence.
     example.nextDelay = example.prevDelay + example.nextDelay;
     example.prevDelay = example.nextDelay - example.prevDelay;
+    
+    // Add some unpredictability.
+    example.nextDelay += Math.round(Math.random());
   }
 };
 
