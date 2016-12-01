@@ -3,12 +3,33 @@ lbe.LessonPage = function(options) {
 };
 lbe.LessonPage.prototype = Object.create(lbe.Page.prototype);
 
-lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
-  if (this.exampleIndex === undefined) {
-    this.exampleIndex = 0;
-  } else {
-    this.exampleIndex++;
+lbe.LessonPage.prototype.addExampleToList = function(lessonData, example, targetIndex) {
+  lessonData.examples.splice(targetIndex, 0, example);
+};
+
+lbe.LessonPage.prototype.adjustDelayForExample = function(lessonData,
+                                                          exampleIndex,
+                                                          gotItRight) {
+  var example = lessonData.examples[exampleIndex];
+  if (example.nextDelay === undefined) {
+    example.prevDelay = 0;
+    example.nextDelay = 1;
   }
+  
+  this.moveExample(lessonData, exampleIndex, example.nextDelay)
+  if (gotItRight) {
+    // Get next pair of numbers in Fibonacci sequence.
+    example.nextDelay = example.prevDelay + example.nextDelay;
+    example.prevDelay = example.nextDelay - example.prevDelay;
+  }
+};
+
+lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
+//  if (this.exampleIndex === undefined) {
+    this.exampleIndex = 0;
+//  } else {
+//    this.exampleIndex++;
+//  }
   
   if (this.exampleIndex >= lessonData.examples.length) {
     var messageElement = $('<p/>').text(
@@ -51,8 +72,10 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
       optionsElements.empty();
       if (clickEvent.target.dataset.correct === 'true') {
         lessonElement.append(correctResponseElement);
+        lessonPage.adjustDelayForExample(lessonData, lessonPage.exampleIndex, true);
       } else {
         lessonElement.append(wrongResponseElement);
+        lessonPage.adjustDelayForExample(lessonData, lessonPage.exampleIndex, false);
       }
       lessonElement.append(continueElement);
     });
@@ -66,6 +89,21 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
     '</div>'
   ).append(optionsElements);
   return lessonElement.append(exampleElement, optionsElements);
+};
+
+lbe.LessonPage.prototype.moveExample = function(lessonData, exampleIndex, delay) {
+  var example = lessonData.examples[exampleIndex];
+  this.removeExampleFromList(lessonData, exampleIndex);
+  this.addExampleToList(lessonData, example, delay);
+  console.log(lessonData.examples[0],
+              lessonData.examples[1],
+              lessonData.examples[2],
+              lessonData.examples[3],
+              lessonData.examples[4]); // TEMP
+};
+
+lbe.LessonPage.prototype.removeExampleFromList = function(lessonData, indexToRemove) {
+  lessonData.examples.splice(indexToRemove, 1);
 };
 
 lbe.LessonPage.prototype.reset = function() {
