@@ -1,2 +1,0 @@
-lbe.Lesson = function() {
-};

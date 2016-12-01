@@ -3,14 +3,38 @@ lbe.LessonPage = function(options) {
 };
 lbe.LessonPage.prototype = Object.create(lbe.Page.prototype);
 
-lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
-  if (this.exampleIndex === undefined) {
-    this.exampleIndex = 0;
-  } else {
-    this.exampleIndex++;
+lbe.LessonPage.prototype.addExampleToList = function(lessonData, example, targetIndex) {
+  lessonData.examples.splice(targetIndex, 0, example);
+};
+
+lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, gotItRight) {
+  var example = lessonData.examples[0];
+  if (example.nextDelay === undefined) {
+    example.prevDelay = 0;
+    example.nextDelay = 1;
   }
   
-  if (this.exampleIndex >= lessonData.examples.length) {
+  this.moveCurrentExample(lessonData, example.nextDelay)
+  if (gotItRight) {
+    // Get next pair of numbers in Fibonacci sequence.
+    example.nextDelay = example.prevDelay + example.nextDelay;
+    example.prevDelay = example.nextDelay - example.prevDelay;
+  }
+};
+
+lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
+  if ( ! this.alreadyRandomized) {
+    this.randomizeExamples(lessonData);
+    this.alreadyRandomized = true;
+  }
+  
+  if (this.numExamplesAttempted === undefined) {
+    this.numExamplesAttempted = 0;
+  } else {
+    this.numExamplesAttempted++;
+  }
+  
+  if (this.numExamplesAttempted >= 50) {
     var messageElement = $('<p/>').text(
       'Congratulations! You finished this lesson.'
     ).append(
@@ -28,7 +52,7 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
   }
   
   var lessonPage = this;
-  var example = lessonData.examples[this.exampleIndex];
+  var example = lessonData.examples[0];
   var lessonElement = $('<div/>');
   var optionsElements = $('<div id="option-buttons" class="row"></div>');
   var correctResponseElement = $('<div role="alert" class="alert alert-success">Correct</div>');
@@ -51,8 +75,10 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
       optionsElements.empty();
       if (clickEvent.target.dataset.correct === 'true') {
         lessonElement.append(correctResponseElement);
+        lessonPage.adjustDelayForCurrentExample(lessonData, true);
       } else {
         lessonElement.append(wrongResponseElement);
+        lessonPage.adjustDelayForCurrentExample(lessonData, false);
       }
       lessonElement.append(continueElement);
     });
@@ -68,8 +94,32 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
   return lessonElement.append(exampleElement, optionsElements);
 };
 
+lbe.LessonPage.prototype.moveCurrentExample = function(lessonData, delay) {
+  var currentExample = lessonData.examples[0];
+  this.removeCurrentExampleFromList(lessonData);
+  this.addExampleToList(lessonData, currentExample, delay);
+};
+
+/**
+ * Randomize lesson examples array in-place using Durstenfeld shuffle algorithm.
+ * Adapted from http://stackoverflow.com/a/12646864/3813891
+ */
+lbe.LessonPage.prototype.randomizeExamples = function(lessonData) {
+  for (var i = lessonData.examples.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = lessonData.examples[i];
+    lessonData.examples[i] = lessonData.examples[j];
+    lessonData.examples[j] = temp;
+  }
+};
+
+lbe.LessonPage.prototype.removeCurrentExampleFromList = function(lessonData) {
+  lessonData.examples.splice(0, 1);
+};
+
 lbe.LessonPage.prototype.reset = function() {
-  delete this.exampleIndex;
+  delete this.alreadyRandomized;
+  delete this.numExamplesAttempted;
 };
 
 lbe.LessonPage.prototype.getTitleText = function(lessonData) {

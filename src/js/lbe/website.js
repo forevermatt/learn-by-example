@@ -53,7 +53,3 @@ lbe.Website.prototype.showPage = function(page, dataForPage) {
   this.targetElement.empty();
   this.targetElement.append(page.getAsElement(dataForPage));
 };
-
-lbe.Website.prototype.showQuestionResult = function(option) {
-  this.showPage(this.pages.lesson, this.lessonsData[lessonCode]);
-};
