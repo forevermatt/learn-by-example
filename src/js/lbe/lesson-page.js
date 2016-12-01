@@ -98,11 +98,6 @@ lbe.LessonPage.prototype.moveCurrentExample = function(lessonData, delay) {
   var currentExample = lessonData.examples[0];
   this.removeCurrentExampleFromList(lessonData);
   this.addExampleToList(lessonData, currentExample, delay);
-  console.log(lessonData.examples[0][0] + ' | ',
-              lessonData.examples[1][0] + ' | ',
-              lessonData.examples[2][0] + ' | ',
-              lessonData.examples[3][0] + ' | ',
-              lessonData.examples[4][0]); // TEMP
 };
 
 /**
@@ -116,19 +111,6 @@ lbe.LessonPage.prototype.randomizeExamples = function(lessonData) {
     lessonData.examples[i] = lessonData.examples[j];
     lessonData.examples[j] = temp;
   }
-
-  // TEMP
-  lessonData.examples[0] = ['A', 'No'];
-  lessonData.examples[1] = ['B', 'No'];
-  lessonData.examples[2] = ['C', 'No'];
-  lessonData.examples[3] = ['D', 'No'];
-  lessonData.examples[4] = ['E', 'No'];
-
-  console.log(lessonData.examples[0][0] + ' | ',
-              lessonData.examples[1][0] + ' | ',
-              lessonData.examples[2][0] + ' | ',
-              lessonData.examples[3][0] + ' | ',
-              lessonData.examples[4][0]); // TEMP
 };
 
 lbe.LessonPage.prototype.removeCurrentExampleFromList = function(lessonData) {
