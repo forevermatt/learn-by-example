@@ -1,4 +1,4 @@
-body { margin-top: 20px; }
+body { margin-top: 24px; }
 
 #example-content {
   font-size: 28pt;
@@ -9,7 +9,37 @@ body { margin-top: 20px; }
 
 .inline-block { display: inline-block; }
 
-#option-buttons > .btn { margin: auto 1em; }
+.menu-item {
+  display: inline-block;
+  max-width: 240px;
+  vertical-align: middle;
+  width: 50%;
+}
+.menu-item > * {
+  display: block;
+  margin: 1ex;
+  white-space: normal;
+}
+
+
+#option-buttons > * {
+  margin: 10px 3%;
+  width: 44%;
+}
+
+@media (min-width: 420px) {
+  #option-buttons > * {
+    margin: 10px 1%;
+    width: 18%;
+  }
+}
+
+@media (min-width: 992px) {
+  #option-buttons > * {
+    margin: 10px 0.5%;
+    width: 9%;
+  }
+}
 
 #site-title {
   color: #ccc;
