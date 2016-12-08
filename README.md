@@ -1,15 +1,8 @@
 # Learn by Example
+Sometimes it is easier to learn something by seeing many examples of it, 
+using your intuition to pick one of the answers each time, and finding out 
+whether your choice was correct.
 
-## How to Use it
-Simply serve these files from any webserver. If testing this on your local 
-computer and you have PHP installed, you can simply open a command prompt in 
-the `src` folder of this project and run the following:  
-
-    php -S localhost:80
-
-Then open a webbrowser (such as Firefox) and go to this URL:  
-
-    http://localhost/
-
-You can copy-and-paste in whatever text you want, click Go, then print the 
-resulting page.
+## Try it
+You can try it out here:  
+<https://goo.gl/oTAzpn>
