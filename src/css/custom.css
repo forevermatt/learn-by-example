@@ -23,13 +23,20 @@ body { margin-top: 24px; }
 
 
 #option-buttons > * {
-  margin: 10px 3%;
+  margin: 7px 3%;
   width: 44%;
 }
 
-@media (min-width: 420px) {
+@media (min-width: 360px) {
   #option-buttons > * {
-    margin: 10px 1%;
+    margin: 8px 1%;
+    width: 23%;
+  }
+}
+
+@media (min-width: 460px) {
+  #option-buttons > * {
+    margin: 9px 1%;
     width: 18%;
   }
 }
