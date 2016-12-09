@@ -9,19 +9,28 @@ lbe.LessonPage.prototype.addExampleToList = function(lessonData, example, target
 
 lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, gotItRight) {
   var example = lessonData.examples[0];
+  
+  // If no delay is defined, set up defaults.
   if (example.nextDelay === undefined) {
     example.prevDelay = 0;
     example.nextDelay = 1;
   }
   
-  this.moveCurrentExample(lessonData, example.nextDelay)
+  
   if (gotItRight) {
-    // Get next pair of numbers in Fibonacci sequence.
+    // Only move to the next example if they got this one right.
+    this.moveCurrentExample(lessonData, example.nextDelay)
+    
+    // Gradually increase the delay for examples the user got right.
     example.prevDelay = example.nextDelay;
     example.nextDelay = Math.ceil(example.nextDelay * 1.33);
     
     // Add some unpredictability.
-    example.nextDelay += Math.round(Math.random() * 0.5);
+    example.nextDelay += Math.round(Math.random());
+  } else {
+    
+    // Decrease future delays for each wrong answer for an example.
+    example.nextDelay = Math.max(1, example.nextDelay - 1);
   }
 };
 
