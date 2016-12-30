@@ -69,7 +69,7 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
     this.numExamplesAttempted++;
   }
   
-  if (this.numExamplesAttempted >= 50) {
+  if (this.numExamplesAttempted >= 30) {
     var messageElement = $('<p/>').text(
       'Congratulations! You finished this lesson.'
     ).append(
