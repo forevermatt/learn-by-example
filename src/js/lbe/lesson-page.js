@@ -46,16 +46,15 @@ lbe.LessonPage.prototype.clickIfKeyIsPressed = function(element, keyCodes) {
 };
 
 lbe.LessonPage.prototype.clickIfMatchingKeyIsPressed = function(element) {
-  $('body').keypress(function(keyEvent) {
-    var text = element.text();
-    var firstChar = (text.length > 0 ? text[0] : '');
-    if (firstChar.toLowerCase() === String.fromCharCode(keyEvent.which).toLowerCase()) {
-      $('body').off('keypress');
-      keyEvent.preventDefault();
-      keyEvent.stopPropagation();
-      element.click();
-    }
-  });
+  var text = element.text();
+  if (text.length < 1) {
+    return;
+  }
+  
+  this.clickIfKeyIsPressed(element, [
+    text.toLowerCase().charCodeAt(0),
+    text.toUpperCase().charCodeAt(0)
+  ]);
 };
 
 lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
