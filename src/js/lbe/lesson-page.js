@@ -34,6 +34,17 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
   }
 };
 
+lbe.LessonPage.prototype.clickIfKeyIsPressed = function(element, keyCodes) {
+  $('body').keypress(function(keyEvent) {
+    if ($.inArray(keyEvent.which, keyCodes) >= 0) {
+      $('body').off('keypress');
+      keyEvent.preventDefault();
+      keyEvent.stopPropagation();
+      element.click();
+    }
+  });
+};
+
 lbe.LessonPage.prototype.clickIfMatchingKeyIsPressed = function(element) {
   $('body').keypress(function(keyEvent) {
     var text = element.text();
@@ -105,6 +116,7 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
         lessonElement.append(wrongResponseElement);
         lessonPage.adjustDelayForCurrentExample(lessonData, false);
       }
+      lessonPage.clickIfKeyIsPressed(continueElement, [13, 32]); // 13 = Enter, 32 = Space
       lessonElement.append(continueElement);
     });
     lessonPage.clickIfMatchingKeyIsPressed(optionElement);
