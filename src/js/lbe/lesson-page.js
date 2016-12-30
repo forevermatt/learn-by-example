@@ -34,6 +34,19 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
   }
 };
 
+lbe.LessonPage.prototype.clickIfMatchingKeyIsPressed = function(element) {
+  $('body').keypress(function(keyEvent) {
+    var text = element.text();
+    var firstChar = (text.length > 0 ? text[0] : '');
+    if (firstChar.toLowerCase() === String.fromCharCode(keyEvent.which).toLowerCase()) {
+      $('body').off('keypress');
+      keyEvent.preventDefault();
+      keyEvent.stopPropagation();
+      element.click();
+    }
+  });
+};
+
 lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
   if ( ! this.alreadyRandomized) {
     this.randomizeExamples(lessonData);
@@ -94,6 +107,7 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
       }
       lessonElement.append(continueElement);
     });
+    lessonPage.clickIfMatchingKeyIsPressed(optionElement);
     optionsElements.append(optionElement);
   }
   var exampleElement = $(
