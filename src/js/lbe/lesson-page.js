@@ -34,6 +34,29 @@ lbe.LessonPage.prototype.adjustDelayForCurrentExample = function(lessonData, got
   }
 };
 
+lbe.LessonPage.prototype.clickIfKeyIsPressed = function(element, keyCodes) {
+  $('body').keypress(function(keyEvent) {
+    if ($.inArray(keyEvent.which, keyCodes) >= 0) {
+      $('body').off('keypress');
+      keyEvent.preventDefault();
+      keyEvent.stopPropagation();
+      element.click();
+    }
+  });
+};
+
+lbe.LessonPage.prototype.clickIfMatchingKeyIsPressed = function(element) {
+  var text = element.text();
+  if (text.length < 1) {
+    return;
+  }
+  
+  this.clickIfKeyIsPressed(element, [
+    text.toLowerCase().charCodeAt(0),
+    text.toUpperCase().charCodeAt(0)
+  ]);
+};
+
 lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
   if ( ! this.alreadyRandomized) {
     this.randomizeExamples(lessonData);
@@ -92,8 +115,10 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
         lessonElement.append(wrongResponseElement);
         lessonPage.adjustDelayForCurrentExample(lessonData, false);
       }
+      lessonPage.clickIfKeyIsPressed(continueElement, [13, 32]); // 13 = Enter, 32 = Space
       lessonElement.append(continueElement);
     });
+    lessonPage.clickIfMatchingKeyIsPressed(optionElement);
     optionsElements.append(optionElement);
   }
   var exampleElement = $(
