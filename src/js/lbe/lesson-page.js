@@ -91,7 +91,7 @@ lbe.LessonPage.prototype.getContentAsElement = function(lessonData) {
   var lessonElement = $('<div/>');
   var optionsElements = $('<div id="option-buttons"></div>');
   var correctResponseElement = $('<div role="alert" class="alert alert-success">Correct</div>');
-  var wrongResponseElement = $('<div role="alert" class="alert alert-danger">Wrong</div>');
+  var wrongResponseElement = $('<div role="alert" class="alert alert-danger">Try again</div>');
   var continueElement = $('<a/>', {
     'href': 'javascript:void(0)',
     'class': 'btn btn-primary'
