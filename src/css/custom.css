@@ -50,10 +50,13 @@ body { margin-top: 24px; }
 
 #site-title {
   color: #ccc;
-  cursor: default;
+  cursor: pointer;
   font-size: small;
   left: 0;
   margin: 4px;
   position: absolute;
   top: 0;
+}
+#site-title:hover {
+  text-decoration: underline;
 }

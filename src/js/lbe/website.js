@@ -20,6 +20,10 @@ lbe.Website = function(targetElementCssPath, dataUrl) {
   });
 };
 
+lbe.Website.prototype.exitLesson = function() {
+  this.targetElement.trigger('lesson:complete');
+};
+
 lbe.Website.prototype.listenForEvents = function() {
   var website = this;
   this.targetElement.on('lesson:select', function(event, lessonCode) {
